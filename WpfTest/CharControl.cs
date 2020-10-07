@@ -31,7 +31,7 @@ namespace WpfTest
         int m_counter;
         int m_prevCounter;
         float scale = 0.8f;
-
+         
         public CharControl(string T, string S, string avaH, string avaS, string avaCh, IntPtr handle)
             : base(handle, 175, 175, "Content", true)
         {
