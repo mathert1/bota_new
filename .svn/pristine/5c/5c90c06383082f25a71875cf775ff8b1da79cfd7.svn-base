@@ -1,0 +1,39 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Lidgren.Network;
+
+namespace Server
+{
+	public class Player
+	{
+		public int ID;
+		public string Name;		
+		public NetConnection Connection;
+		public int Rank;
+		public int Tank;
+		public int Skin;
+		public int AvaHead;
+		public int AvaShoulder;
+		public int AvaChest;
+		public int Item1;
+		public int Item2;
+		public int Item3;
+		public int Shot1;
+		public int Shot2;
+		public int Shot3;
+		public int Gold;
+		public int Attack;
+		public int Defense;
+		public int Health;
+		public int Shield;
+		public int Move;
+		public int Popularity;
+
+		public Player()
+		{
+			
+		}
+	}
+}

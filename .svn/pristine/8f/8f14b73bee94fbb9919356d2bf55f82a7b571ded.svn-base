@@ -1,0 +1,525 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Lidgren.Network;
+using MSCommon;
+using System.Data.SqlClient;
+
+namespace Server
+{
+	class GameServer
+	{
+		public NetServer peer;
+		public DatabaseConnection DBconn;
+		public List<Player> lobbyPlayers;
+		double nextSendUpdates;
+
+		static void Main(string[] args)
+		{
+			GameServer server = new GameServer();
+		}
+
+		public GameServer()
+		{
+			InitServer();
+			DBconn = new DatabaseConnection();
+			DBconn.DisconnectAllPlayers();
+			lobbyPlayers = new List<Player>();
+			nextSendUpdates = NetTime.Now;
+			GameLoop();
+		}
+
+		private void InitServer()
+		{
+			NetPeerConfiguration config = new NetPeerConfiguration("game");
+			config.AcceptIncomingConnections = true;
+			config.ConnectionTimeout = 20.0f;
+			config.Port = CommonConstants.MasterServerPort;
+			config.EnableMessageType(NetIncomingMessageType.ConnectionApproval);
+
+			peer = new NetServer(config);
+			peer.Start();
+		}
+
+		public void GameLoop()
+		{
+			while (!Console.KeyAvailable || Console.ReadKey().Key != ConsoleKey.Escape)
+			{
+				ReceiveMessages();
+
+				// send position updates 30 times per second				
+				double now = NetTime.Now;
+				if (now > nextSendUpdates)
+				{
+					//gameState.Update();
+					// Yes, it's time to send position updates
+
+
+					// schedule next update
+					//nextSendUpdates += (1.0 / 30.0);
+					nextSendUpdates += (1.0 / 75.0);
+				}
+			}
+
+			peer.Shutdown("shutting down");
+		}
+
+		public void ReceiveMessages()
+		{
+			NetIncomingMessage msg;
+			while ((msg = peer.ReadMessage()) != null)
+			{
+				switch (msg.MessageType)
+				{
+					case NetIncomingMessageType.UnconnectedData:
+						break;
+					case NetIncomingMessageType.Data:
+						switch ((MasterServerMessageType)msg.ReadByte())
+						{
+							case MasterServerMessageType.RequestLogin: //Login Request
+								HandleLoginRequest(msg);
+								break;
+							case MasterServerMessageType.CreateAccount:
+								HandleCreateAccountRequest(msg);
+								break;
+							case MasterServerMessageType.SendMessage:
+								HandleSendMessageRequest(msg);
+								break;
+							case MasterServerMessageType.AddBuddy:
+								HandleAddBuddyRequest(msg);
+								break;
+							case MasterServerMessageType.Disconnect:
+								HandleDisconnect(msg);
+								break;
+							case MasterServerMessageType.SendBuddyList:
+								HandleSendBuddyListRequest(msg);
+								break;
+							case MasterServerMessageType.CharacterInfo:
+								HandleSendCharacterInfo(msg);
+								break;
+							case MasterServerMessageType.UpdateCharacterInfo:
+								HandleUpdateCharacterInfo(msg);
+								break;
+							case MasterServerMessageType.RequestTanks:
+								HandleRequestTanks(msg);
+								break;
+                            case MasterServerMessageType.RequestAvatar:
+                                HandleRequestAvatar(msg);
+                                break;
+							case MasterServerMessageType.PurchaseItem:
+								HandlePurchaseItemRequest(msg);
+								break;
+						}
+						break;
+					case NetIncomingMessageType.ConnectionApproval:
+						msg.SenderConnection.Approve();
+						Console.WriteLine(msg.SenderConnection.RemoteEndpoint.ToString() + " just connected");
+						//Used to add player to lobbyPlayers on connection, now adds after successful login.
+						//GamePlayer newp = new GamePlayer(msg.SenderConnection);
+						//lobbyPlayers.Add(newp);
+						break;
+					case NetIncomingMessageType.DebugMessage:
+					case NetIncomingMessageType.VerboseDebugMessage:
+					case NetIncomingMessageType.WarningMessage:
+					case NetIncomingMessageType.ErrorMessage:
+						// print diagnostics message
+						Console.WriteLine(msg.ReadString());
+						break;
+				}
+			}
+		}
+
+		private void HandleLoginRequest(NetIncomingMessage msg)
+		{
+			string loginUsername = msg.ReadString();
+			string pass = msg.ReadString();
+			Console.WriteLine("Login Request by: " + loginUsername);
+
+            int tempId = 0;
+            NetConnection NC = null;
+
+			NetOutgoingMessage omLogin = peer.CreateMessage();
+			omLogin.Write((byte)MasterServerMessageType.RequestLogin);
+
+			List<Player> playerList = DBconn.SelectPlayerInfo(loginUsername, pass);
+			if (playerList.Count == 0)
+			{
+				omLogin.Write(false);
+			}
+			else if (playerList.Count == 1)
+			{
+				bool exist = false;
+				foreach (Player np in lobbyPlayers) //Check to see if user is already logged in.
+				{
+					if (loginUsername == np.Name)
+						exist = true;
+				}
+				if (exist)
+					omLogin.Write(false);
+				else
+				{
+					omLogin.Write(true);
+					Player tempPlayer = playerList[0];
+					tempPlayer.Connection = msg.SenderConnection;
+					lobbyPlayers.Add(tempPlayer);
+					DBconn.ChangePlayerStatus(tempPlayer.ID, 1);
+
+                    tempId = tempPlayer.ID;
+                    NC = msg.SenderConnection;
+				}
+			}
+			else
+				omLogin.Write(false);
+
+			peer.SendMessage(omLogin, msg.SenderConnection, NetDeliveryMethod.ReliableOrdered, 0);
+
+            if (tempId != 0 || NC != null)
+            {
+                //SendBuddyList(tempId, NC); Causes client to try to update buddylist before screen is loaded.  Now client requests buddylist after it is loaded.
+                NotifyPlayersOfBuddyStatusChange(tempId);
+            }
+		}
+
+		private void HandleDisconnect(NetIncomingMessage msg)
+		{
+			foreach (Player p in lobbyPlayers)
+			{
+				if (p.Connection == msg.SenderConnection)
+				{
+					lobbyPlayers.Remove(p);
+					DBconn.ChangePlayerStatus(p.ID, 0);
+					NotifyPlayersOfBuddyStatusChange(p.ID);
+					break;
+				}
+			}
+		}
+
+		private void HandleCreateAccountRequest(NetIncomingMessage msg)
+		{
+			string userName = msg.ReadString();
+			string password = msg.ReadString();
+
+			NetOutgoingMessage CreateAccount = peer.CreateMessage();
+			CreateAccount.Write((byte)MasterServerMessageType.CreateAccount);
+			if (userName.Length < 3 || password.Length < 3)
+			{
+				Console.WriteLine("Invalid account creation. Invalid Username/Pass. " + userName + ":" + password);
+				CreateAccount.Write(false);
+			}
+			else
+			{
+                Player player = new Player();
+				player = DBconn.SelectPlayerInfoNoPassByName(userName);
+				
+				if (player != null)
+				{					
+					Console.WriteLine("Invalid account creation. Username already exists. " + userName + ":" + password);
+					CreateAccount.Write(false);
+				}
+				else
+				{
+					DBconn.CreateNewPlayer(userName, password);
+					CreateAccount.Write(true);
+				}
+				peer.SendMessage(CreateAccount, msg.SenderConnection, NetDeliveryMethod.ReliableOrdered, 0);
+			}
+		}
+
+		private void HandleSendMessageRequest(NetIncomingMessage msg)
+		{
+			NetOutgoingMessage sendMsg = peer.CreateMessage();
+			sendMsg.Write((byte)MasterServerMessageType.SendMessage);
+
+			string chatName = msg.ReadString();
+			string message = msg.ReadString();
+
+			NetConnection destinationConn = null;
+			string msgSender = null;
+
+			List<NetConnection> conns = new List<NetConnection>();
+			if (chatName == "General")
+			{
+				foreach (Player p in lobbyPlayers)
+				{
+					if (p.Connection == msg.SenderConnection)
+						msgSender = p.Name;
+					else
+						conns.Add(p.Connection);
+				}
+				if (!msgSender.Equals(null) || conns.Count != 0)
+				{
+					sendMsg.Write(chatName);
+					sendMsg.Write(msgSender);
+					sendMsg.Write(message);
+					foreach (NetConnection NC in conns)
+					{
+						peer.SendMessage(sendMsg, NC, NetDeliveryMethod.ReliableOrdered, 0);
+					}
+				}
+				
+			}
+			else
+			{
+				foreach (Player p in lobbyPlayers)
+				{
+					if (p.Name == chatName)
+					{
+						destinationConn = p.Connection;
+					}
+					if (p.Connection == msg.SenderConnection)
+					{
+						msgSender = p.Name;
+					}
+				}
+
+				if (destinationConn != null && !msgSender.Equals(null))
+				{
+                    sendMsg.Write(msgSender);
+					sendMsg.Write(msgSender);
+					sendMsg.Write(message);
+					peer.SendMessage(sendMsg, destinationConn, NetDeliveryMethod.ReliableOrdered, 0);
+				}
+			}
+		}
+
+		private int GetIDbyConnection(NetConnection NC)
+		{
+			foreach (Player p in lobbyPlayers)
+			{
+				if (p.Connection == NC)
+				{
+					return p.ID;
+				}
+			}
+			return 0;
+		}
+
+		private void HandleAddBuddyRequest(NetIncomingMessage msg)
+		{
+			string Name = msg.ReadString();
+			int requestingID = 0;
+
+			NetOutgoingMessage addBud = peer.CreateMessage();
+			addBud.Write((byte)MasterServerMessageType.AddBuddy);
+
+			requestingID = GetIDbyConnection(msg.SenderConnection);			
+			int targetID = DBconn.SelectCharIDbyName(Name);
+
+			if (targetID == 0 || requestingID == 0  || targetID == requestingID)
+			{
+				addBud.Write(false); //to let client know requesting/target ID is invalid
+			}
+			else
+			{
+				bool bExists = DBconn.CheckBuddyExist(requestingID, targetID);
+				if (bExists)
+				{
+					addBud.Write(false);//to let client know is unsuccessful because buddy already is added.
+				}
+				else
+				{
+					addBud.Write(true); //to let client know buddy added successfully
+					DBconn.AddNewBuddy(requestingID, targetID);
+					SendBuddyList(requestingID, msg.SenderConnection);
+				}				
+			}
+			peer.SendMessage(addBud, msg.SenderConnection, NetDeliveryMethod.ReliableOrdered, 0);
+		}
+
+		private void HandleSendBuddyListRequest(NetIncomingMessage msg)
+		{
+			int requestingID = 0;
+			requestingID = GetIDbyConnection(msg.SenderConnection);
+
+			if (requestingID != 0)
+			{
+				SendBuddyList(requestingID, msg.SenderConnection);
+			}
+		}
+
+		private void SendBuddyList(int ID, NetConnection conn)
+		{
+			List<string> buddyList = DBconn.SelectBuddiesByCharID(ID);
+			
+			NetOutgoingMessage sendBuddyList = peer.CreateMessage();
+			sendBuddyList.Write((byte)MasterServerMessageType.SendBuddyList);
+			sendBuddyList.Write(buddyList.Count);
+			foreach (string b in buddyList)
+			{
+				sendBuddyList.Write(b);
+			}
+			peer.SendMessage(sendBuddyList, conn, NetDeliveryMethod.ReliableOrdered, 0);
+			
+		}
+
+		private void HandleSendCharacterInfo(NetIncomingMessage msg)
+		{
+			Player tempP = new Player();
+			tempP = DBconn.SelectPlayerInfoNoPassByID(GetIDbyConnection(msg.SenderConnection));			
+
+			if (!tempP.Equals(null))
+			{
+				NetOutgoingMessage sendCharacterInfo = peer.CreateMessage();
+				sendCharacterInfo.Write((byte)MasterServerMessageType.CharacterInfo);
+				sendCharacterInfo.Write(tempP.Name);
+				sendCharacterInfo.Write(tempP.Rank);
+				sendCharacterInfo.Write(tempP.Tank);
+				sendCharacterInfo.Write(tempP.Skin);
+				sendCharacterInfo.Write(tempP.AvaHead);
+				sendCharacterInfo.Write(tempP.AvaShoulder);
+				sendCharacterInfo.Write(tempP.AvaChest);				
+				sendCharacterInfo.Write(tempP.Gold);				
+				peer.SendMessage(sendCharacterInfo, msg.SenderConnection, NetDeliveryMethod.ReliableOrdered, 0);
+			}
+		}
+
+		private void HandleUpdateCharacterInfo(NetIncomingMessage inc)
+		{
+			Player tempP = new Player();
+			tempP.Tank = inc.ReadInt32();
+			tempP.Skin = inc.ReadInt32();
+			tempP.AvaHead = inc.ReadInt32();
+			tempP.AvaShoulder = inc.ReadInt32();
+			tempP.AvaChest = inc.ReadInt32();
+			tempP.ID = GetIDbyConnection(inc.SenderConnection);
+			DBconn.UpdateCharacterInfo(tempP);
+		}
+
+		private void HandleRequestTanks(NetIncomingMessage msg)
+		{
+			int id = GetIDbyConnection(msg.SenderConnection);
+			List<CharTank> tankList = DBconn.SelectCharacterTanks(id);
+			NetOutgoingMessage sendTankList = peer.CreateMessage();
+			sendTankList.Write((byte)MasterServerMessageType.RequestTanks);
+			sendTankList.Write(tankList.Count);
+			foreach (CharTank CT in tankList)
+			{
+				sendTankList.Write(CT.ID);
+				sendTankList.Write(CT.Rank);
+				sendTankList.Write(CT.shot1);
+				sendTankList.Write(CT.shot2);
+				sendTankList.Write(CT.shot3);
+				sendTankList.Write(CT.item1);
+				sendTankList.Write(CT.shot2);
+				sendTankList.Write(CT.shot3);
+			}
+			peer.SendMessage(sendTankList, msg.SenderConnection, NetDeliveryMethod.ReliableOrdered, 0);
+		}
+
+		private void HandleRequestAvatar(NetIncomingMessage msg)
+		{
+			int id = GetIDbyConnection(msg.SenderConnection);
+			List<Tuple<int, int>> avatarList = DBconn.SelectCharacterAvatar(id);
+			NetOutgoingMessage sendAvatarList = peer.CreateMessage();
+			sendAvatarList.Write((byte)MasterServerMessageType.RequestAvatar);
+			sendAvatarList.Write(avatarList.Count);
+			foreach (Tuple<int, int> T in avatarList)
+			{
+				sendAvatarList.Write(T.Item1);
+				sendAvatarList.Write(T.Item2);
+			}
+			peer.SendMessage(sendAvatarList, msg.SenderConnection, NetDeliveryMethod.ReliableOrdered, 0);
+		}
+
+		private void HandlePurchaseItemRequest(NetIncomingMessage msg)
+		{
+			int type = msg.ReadInt32();
+			int itemID = msg.ReadInt32();
+
+			int goldCost = 99999999;
+
+			NetOutgoingMessage purchaseItem = peer.CreateMessage();
+			purchaseItem.Write((byte)MasterServerMessageType.PurchaseItem);
+			foreach (Player p in lobbyPlayers)
+			{
+				if (p.Connection == msg.SenderConnection)
+				{
+					switch (type)
+					{
+						case 1:
+							goldCost = DBconn.GetGoldCost("Tanks", itemID);
+							if (goldCost < p.Gold)
+							{
+								p.Gold -= goldCost;
+								DBconn.PurchaseItem("Tanks", itemID, p.ID, p.Gold);
+								purchaseItem.Write(true);
+							}
+							else
+								purchaseItem.Write(false);
+							peer.SendMessage(purchaseItem, msg.SenderConnection, NetDeliveryMethod.ReliableOrdered, 0);
+							break;
+						case 2:
+							goldCost = DBconn.GetGoldCost("AvatarHead", itemID);
+							if (goldCost < p.Gold)
+							{
+								p.Gold -= goldCost;
+								DBconn.PurchaseItem("AvatarHead", itemID, p.ID, p.Gold);
+								purchaseItem.Write(true);
+							}
+							else
+								purchaseItem.Write(false);
+							peer.SendMessage(purchaseItem, msg.SenderConnection, NetDeliveryMethod.ReliableOrdered, 0);
+							break;
+						case 3:
+							goldCost = DBconn.GetGoldCost("AvatarShoulder", itemID);
+							if (goldCost < p.Gold)
+							{
+								p.Gold -= goldCost;
+								DBconn.PurchaseItem("AvatarShoulder", itemID, p.ID, p.Gold);
+								purchaseItem.Write(true);
+							}
+							else
+								purchaseItem.Write(false);
+							peer.SendMessage(purchaseItem, msg.SenderConnection, NetDeliveryMethod.ReliableOrdered, 0);
+							break;
+						case 4:
+							goldCost = DBconn.GetGoldCost("AvatarChest", itemID);
+							if (goldCost < p.Gold)
+							{
+								p.Gold -= goldCost;
+								DBconn.PurchaseItem("AvatarChest", itemID, p.ID, p.Gold);
+								purchaseItem.Write(true);
+							}
+							else
+								purchaseItem.Write(false);
+							peer.SendMessage(purchaseItem, msg.SenderConnection, NetDeliveryMethod.ReliableOrdered, 0);
+							break;
+						case 5:
+							goldCost = DBconn.GetGoldCost("Skins", itemID);
+							if (goldCost < p.Gold)
+							{
+								p.Gold -= goldCost;
+								DBconn.PurchaseItem("Skins", itemID, p.ID, p.Gold);
+								purchaseItem.Write(true);
+							}
+							else
+								purchaseItem.Write(false);
+							peer.SendMessage(purchaseItem, msg.SenderConnection, NetDeliveryMethod.ReliableOrdered, 0);
+							break;
+					}
+				}
+			}
+		}
+
+        private void NotifyPlayersOfBuddyStatusChange(int buddyID)
+        {
+            List<int> buddyList = new List<int>();
+            buddyList = DBconn.SelectOnlineBuddiesByBuddyID(buddyID);
+
+            if (buddyList != null)
+            {
+                foreach (int b in buddyList)
+                {
+                    foreach (Player p in lobbyPlayers)
+                    {
+                        if (p.ID == b)
+                        {
+                            SendBuddyList(p.ID, p.Connection);
+                        }
+                    }
+                }
+            }
+        }
+	}
+}

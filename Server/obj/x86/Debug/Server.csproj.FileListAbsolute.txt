@@ -1,0 +1,18 @@
+C:\Users\Grand Champ\Desktop\bota_new\Server\bin\Debug\Server.exe
+C:\Users\Grand Champ\Desktop\bota_new\Server\bin\Debug\Server.pdb
+C:\Users\Grand Champ\Desktop\bota_new\Server\bin\Debug\Lidgren.Network.dll
+C:\Users\Grand Champ\Desktop\bota_new\Server\bin\Debug\MSCommon.dll
+C:\Users\Grand Champ\Desktop\bota_new\Server\bin\Debug\MSCommon.pdb
+C:\Users\Grand Champ\Desktop\bota_new\Server\obj\x86\Debug\Server.exe
+C:\Users\Grand Champ\Desktop\bota_new\Server\obj\x86\Debug\Server.pdb
+C:\Users\Grand Champ\Desktop\bota_new\Server\obj\x86\Debug\Server.csprojResolveAssemblyReference.cache
+C:\Users\Tyler\Desktop\bota_new\Server\bin\Debug\Server.exe
+C:\Users\Tyler\Desktop\bota_new\Server\bin\Debug\Server.pdb
+C:\Users\Tyler\Desktop\bota_new\Server\bin\Debug\Lidgren.Network.dll
+C:\Users\Tyler\Desktop\bota_new\Server\bin\Debug\MSCommon.dll
+C:\Users\Tyler\Desktop\bota_new\Server\bin\Debug\MSCommon.pdb
+C:\Users\Tyler\Desktop\bota_new\Server\obj\x86\Debug\Server.csprojAssemblyReference.cache
+C:\Users\Tyler\Desktop\bota_new\Server\obj\x86\Debug\Server.csproj.CoreCompileInputs.cache
+C:\Users\Tyler\Desktop\bota_new\Server\obj\x86\Debug\Server.csproj.CopyComplete
+C:\Users\Tyler\Desktop\bota_new\Server\obj\x86\Debug\Server.exe
+C:\Users\Tyler\Desktop\bota_new\Server\obj\x86\Debug\Server.pdb

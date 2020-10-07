@@ -1,0 +1,16 @@
+C:\Users\Grand Champ\Desktop\bota_new\XNAControl\bin\Debug\XNAControl.dll
+C:\Users\Grand Champ\Desktop\bota_new\XNAControl\bin\Debug\XNAControl.pdb
+C:\Users\Grand Champ\Desktop\bota_new\XNAControl\obj\Debug\XNAControl.baml
+C:\Users\Grand Champ\Desktop\bota_new\XNAControl\obj\Debug\XNAControl.g.cs
+C:\Users\Grand Champ\Desktop\bota_new\XNAControl\obj\Debug\XNAControl_MarkupCompile.cache
+C:\Users\Grand Champ\Desktop\bota_new\XNAControl\obj\Debug\XNAControl.g.resources
+C:\Users\Grand Champ\Desktop\bota_new\XNAControl\obj\Debug\XNAControl.Properties.Resources.resources
+C:\Users\Grand Champ\Desktop\bota_new\XNAControl\obj\Debug\XNAControl.dll
+C:\Users\Grand Champ\Desktop\bota_new\XNAControl\obj\Debug\XNAControl.pdb
+C:\Users\Grand Champ\Desktop\bota_new\XNAControl\bin\Debug\Microsoft.Xna.Framework.dll
+C:\Users\Grand Champ\Desktop\bota_new\XNAControl\bin\Debug\Microsoft.Xna.Framework.Game.dll
+C:\Users\Grand Champ\Desktop\bota_new\XNAControl\bin\Debug\Microsoft.Xna.Framework.Graphics.dll
+C:\Users\Grand Champ\Desktop\bota_new\XNAControl\bin\Debug\Microsoft.Xna.Framework.xml
+C:\Users\Grand Champ\Desktop\bota_new\XNAControl\bin\Debug\Microsoft.Xna.Framework.Game.xml
+C:\Users\Grand Champ\Desktop\bota_new\XNAControl\bin\Debug\Microsoft.Xna.Framework.Graphics.xml
+C:\Users\Grand Champ\Desktop\bota_new\XNAControl\obj\Debug\XNAControl.csproj.GenerateResource.Cache

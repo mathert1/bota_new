@@ -1,0 +1,228 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Windows.Threading;
+using System.Threading;
+using System.Windows.Controls;
+using MSCommon;
+
+namespace WpfTest
+{
+	public class ScreenManager
+	{
+		public Thread loginWindowThread;
+		public Thread MainScreenThread;
+		public Thread EditCharWindowThread;
+		public Thread NewTankWindowThread;
+
+		public LoginWindow logwin;
+		public MainScreen MS;
+		public EditCharacterWindow editCharWin;
+		public NewTankWindow newTankWin;
+		
+		public void OpenLoginWindow()
+		{
+			loginWindowThread = new Thread(() =>
+			{
+				logwin = new LoginWindow(this);
+				logwin.Show();
+				logwin.Closed += (s, e) => logwin.Dispatcher.InvokeShutdown();
+				Dispatcher.Run();
+			});
+			loginWindowThread.SetApartmentState(ApartmentState.STA);
+			loginWindowThread.Start();
+		}
+
+		private delegate void LoginWindowCloser();
+		public void CloseLoginWindow()
+		{
+			if (this.logwin.Dispatcher.CheckAccess())
+			{
+				logwin.Close();
+			}
+			else
+			{
+				this.logwin.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal,
+					new LoginWindowCloser(this.CloseLoginWindow));
+			}
+			//loginWindowThread.Abort();
+		}		
+
+		public void OpenMainScreen()
+		{
+			MainScreenThread = new Thread(() =>
+			{
+				MS = new MainScreen(this);
+				MS.Show();
+				MS.Closed += (s, e) => MS.Dispatcher.InvokeShutdown();
+				Dispatcher.Run();
+			});
+			MainScreenThread.SetApartmentState(ApartmentState.STA);
+			MainScreenThread.Start();			
+		}
+
+		public void CloseMainScreen()
+		{
+			ServerConnection.Disconnect();
+			MS.Close();
+			//MainScreenThread.Abort();
+		}
+
+		public void OpenEditCharacterWindow()
+		{
+			if (EditCharWindowThread == null)
+			{
+				EditCharWindowThread = new Thread(() =>
+				{
+					//Tuple<double, double> winLoc = GetWindowPosition(windows.MS);
+					editCharWin = new EditCharacterWindow(this, Variables.screenPos.Item1, Variables.screenPos.Item2);//, (int)MS.Top, (int)MS.Left);
+					editCharWin.Show();
+					editCharWin.Closed += (s, e) => editCharWin.Dispatcher.InvokeShutdown();
+					Dispatcher.Run();
+				});
+				EditCharWindowThread.SetApartmentState(ApartmentState.STA);
+				EditCharWindowThread.Start();
+			}
+			else
+			{
+				ClearTempCharacterInfo();
+				CloseEditCharacterWindow();
+			}
+		}
+
+		private delegate void EditCharCloser();
+		public void CloseEditCharacterWindow()
+		{
+			if (this.editCharWin.Dispatcher.CheckAccess())
+			{
+				editCharWin.Close();
+				EditCharWindowThread = null;
+				SetCharacterInfo();
+			}
+			else
+			{
+				this.editCharWin.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal,
+					new EditCharCloser(this.CloseEditCharacterWindow));
+			}
+		}
+
+		public void OpenNewTankWindow()
+		{
+			if (NewTankWindowThread == null)
+			{
+				NewTankWindowThread = new Thread(() =>
+				{
+					newTankWin = new NewTankWindow(this, Variables.screenPos.Item1, Variables.screenPos.Item2);
+					newTankWin.Show();
+					newTankWin.Closed += (s, e) => newTankWin.Dispatcher.InvokeShutdown();
+					Dispatcher.Run();
+				});
+				NewTankWindowThread.SetApartmentState(ApartmentState.STA);
+				NewTankWindowThread.Start();
+			}
+			else
+			{
+				CloseNewTankWindow();
+			}
+		}
+
+		private delegate void NewTankCloser();
+		public void CloseNewTankWindow()
+		{
+			if (this.newTankWin.Dispatcher.CheckAccess())
+			{
+				newTankWin.Close();
+				NewTankWindowThread = null;
+			}
+			else
+			{
+				this.newTankWin.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal,
+					new NewTankCloser(this.CloseNewTankWindow));
+			}
+		}
+
+		public void AddMessage(string _chat, string _name, string _msg)
+		{
+			MS.AddMessage(_chat, _name, _msg);
+		}
+
+		public void RefreshBuddyList(List<string> buddyList)
+		{			
+			MS.RefreshBuddyList(buddyList);			          
+		}
+
+		public void SaveCharacterInfo()
+		{
+			Player p = Variables.player;
+			if (Variables.TempTank != 0)
+			{
+				p.Tank = Variables.TempTank;
+				Variables.TempTank = 0;
+			}			
+			if (Variables.TempSkin != 0)
+			{
+				p.Skin = Variables.TempSkin;
+				Variables.TempSkin = 0;
+			}			
+			if (Variables.TempAvaHead > -1)
+			{
+				p.AvaHead = Variables.TempAvaHead;
+				Variables.TempAvaHead = -1;
+			}
+			if (Variables.TempAvaShoulder > -1)
+			{
+				p.AvaShoulder = Variables.TempAvaShoulder;
+				Variables.TempAvaShoulder = -1;
+			}
+			if (Variables.TempAvaChest > -1)
+			{
+				p.AvaChest = Variables.TempAvaChest;
+				Variables.TempAvaChest = -1;
+			}
+			
+			ServerConnection.UpdateCharacterInfo(p);
+		}
+
+		public void ClearTempCharacterInfo()
+		{
+			Variables.TempTank = 0;
+			Variables.TempSkin = 0;
+			Variables.TempAvaHead = -1;
+			Variables.TempAvaShoulder = -1;
+			Variables.TempAvaChest = -1;
+		}
+
+		public void SetCharacterInfo()
+		{
+			if (EditCharWindowThread == null)
+			{
+				MS.SetCharacterInfo();
+			}
+			else
+			{
+				editCharWin.SetCharacterInfo();
+			}
+
+			
+		}
+
+		public void SetTankList(List<CharTank> CT)
+		{
+			//editCharWin.SetUpTankList(CT);
+		}
+
+		public void SetAvatarList(List<int> AL)
+		{
+			editCharWin.SetUpAvaList(AL);
+		}
+
+		public enum windows
+		{
+			logwin,
+			MS,
+			editCharWin,
+			newTankWin
+		}
+	}
+}

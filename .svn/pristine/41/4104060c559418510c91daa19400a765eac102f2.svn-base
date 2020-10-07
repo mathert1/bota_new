@@ -1,0 +1,230 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{FBA71CB5-8ECE-48DE-9D1B-E6F3AA4A2A4E}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>WpfTest</RootNamespace>
+    <AssemblyName>WpfTest</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>WpfTest.Program</StartupObject>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Lidgren.Network">
+      <HintPath>..\lib\Lidgren.Network.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Xna.Framework.Game, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Game.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="EditCharacterWindow.xaml.cs">
+      <DependentUpon>EditCharacterWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\ChatControl.xaml.cs">
+      <DependentUpon>ChatControl.xaml</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="GUI\UpgradeObjectControl.xaml.cs">
+      <DependentUpon>UpgradeObjectControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NewTankWindow.xaml.cs">
+      <DependentUpon>NewTankWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ServerConnection.cs" />
+    <Compile Include="TextFileHelper.cs" />
+    <Page Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="ScreenManager.cs" />
+    <Page Include="EditCharacterWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GUI\ChatControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="GUI\UpgradeObjectControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LoginWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MainScreen.xaml.cs">
+      <DependentUpon>MainScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LoginWindow.xaml.cs">
+      <DependentUpon>LoginWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="NewTankWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Content\Items\" />
+    <Folder Include="Themes\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CharacterControl\CharacterControl\CharacterControl.csproj">
+      <Project>{8CF68B2C-673F-4DAD-BCFD-9B35A1F80438}</Project>
+      <Name>CharacterControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MSCommon\MSCommon.csproj">
+      <Project>{DCD2BE10-1B14-4C80-8BD6-77A8B1F43346}</Project>
+      <Name>MSCommon</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\XNAControl\XNAControl.csproj">
+      <Project>{D98D6FF4-6F72-4E54-B84E-3E8592B7A181}</Project>
+      <Name>XNAControl</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Content\delete.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Content\Icons\attack.png" />
+    <Resource Include="Content\Icons\defense.png" />
+    <Resource Include="Content\Icons\energy.png" />
+    <Resource Include="Content\Icons\gold.png" />
+    <Resource Include="Content\Icons\gold2.png" />
+    <Resource Include="Content\Icons\health.png" />
+    <Resource Include="Content\Icons\Move.png" />
+    <Resource Include="Content\Icons\Shield.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Content\Tanks\FireTank.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Content\Tanks\Watertank.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Content\Skins\skin.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Content\Tanks\EarthTank.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Content\Skins\skin_blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Content\Tanks\LavaTank.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Content\Tanks\ShadowTank.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Content\Avatar\Chest\fire.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Content\Avatar\Head\fire.png" />
+    <Resource Include="Content\Avatar\Head\water.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Content\Avatar\Shoulder\fire.png" />
+    <Resource Include="Content\Avatar\Shoulder\water.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Content\Skins\skin0.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Content\Avatar\Chest\water.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,185 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
+using System.Collections.ObjectModel;
+using MSCommon;
+
+namespace WpfTest
+{
+	/// <summary>
+	/// Interaction logic for ShopWindow.xaml
+	/// </summary>
+	public partial class ShopWindow : Window
+	{
+		ObservableCollection<UpgradeObject> AvatarHeadList = new ObservableCollection<UpgradeObject>();
+		ObservableCollection<UpgradeObject> AvatarChestList = new ObservableCollection<UpgradeObject>();
+		ObservableCollection<UpgradeObject> AvatarShoulderList = new ObservableCollection<UpgradeObject>();
+		ObservableCollection<UpgradeObject> SkinList = new ObservableCollection<UpgradeObject>();
+		ObservableCollection<UpgradeObject> TankList = new ObservableCollection<UpgradeObject>();
+
+		CharacterControl.Game1 m_game;
+		ScreenManager screenMan;
+
+		public ShopWindow(ScreenManager SM, double left, double top)
+		{
+			InitializeComponent();
+
+			screenMan = SM;
+			this.WindowStartupLocation = WindowStartupLocation.Manual;
+			this.Left = left;
+			this.Top = top;
+		}
+
+		public void UpdateChar()
+		{
+			screenMan.SetCharacterInfo();
+		}
+
+		public void PurchaseItem(UpgradeObject uO)
+		{
+			screenMan.PurchaseItem(uO);
+		}
+
+		private void SetUpTanks()
+		{
+			TankList.Clear();
+			TankList = TextFileHelper.GetUpgradeObjectListFormattedFilePathFromTextFile("Tanks");
+			TankListBox.ItemsSource = TankList;
+		}
+
+		private void SetUpAvaHead()
+		{
+			AvatarHeadList.Clear();
+			AvatarHeadList = TextFileHelper.GetUpgradeObjectListFormattedFilePathFromTextFile("AvatarHead");
+			AvaHeadListBox.ItemsSource = AvatarHeadList;
+		}
+
+		private void SetUpAvaChest()
+		{
+			AvatarChestList.Clear();
+			AvatarChestList = TextFileHelper.GetUpgradeObjectListFormattedFilePathFromTextFile("AvatarChest");
+			AvaChestListBox.ItemsSource = AvatarChestList;
+		}
+
+		private void SetUpAvaShoulder()
+		{
+			AvatarShoulderList.Clear();
+			AvatarShoulderList = TextFileHelper.GetUpgradeObjectListFormattedFilePathFromTextFile("AvatarShoulder");
+			AvaShoulderListBox.ItemsSource = AvatarShoulderList;
+		}
+
+		private void SetUpSkins()
+		{
+			SkinList.Clear();
+			SkinList = TextFileHelper.GetUpgradeObjectListFormattedFilePathFromTextFile("Skins");
+			SkinListBox.ItemsSource = SkinList;
+		}
+
+		private void Window_Loaded(object sender, RoutedEventArgs e)
+		{
+			SetUpTanks();
+			UpdateChar();
+		}
+
+		private void HeadHeader_GotFocus(object sender, RoutedEventArgs e)
+		{
+			if(AvatarHeadList.Count==0)
+				SetUpAvaHead();			
+		}
+
+		private void ChestHeader_GotFocus(object sender, RoutedEventArgs e)
+		{
+			if (AvatarChestList.Count == 0)
+				SetUpAvaChest();
+		}
+
+		private void ShoulderHeader_GotFocus(object sender, RoutedEventArgs e)
+		{
+			if (AvatarShoulderList.Count == 0)
+				SetUpAvaShoulder();
+		}
+
+		private void SkinHeader_GotFocus(object sender, RoutedEventArgs e)
+		{
+			if (SkinList.Count == 0)
+				SetUpSkins();
+		}
+
+		private void doneBtn_Click(object sender, RoutedEventArgs e)
+		{
+			screenMan.ClearTempCharacterInfo();
+			screenMan.CloseShopWindow();
+		}
+
+		private delegate void SetCharacterInfoer();
+		public void SetCharacterInfo()
+		{
+			if (this.GoldTxtBlk.Dispatcher.CheckAccess())
+			{
+				//Checks if there are temp variables for all avatar/tank/skins and sends the correct item to 'Game1'
+				int t; int s; int avh; int avs; int avc;
+
+				if (Variables.TempTank != 0)
+					t = Variables.TempTank;
+				else
+					t = Variables.player.Tank;
+				if (Variables.TempSkin != 0)
+					s = Variables.TempSkin;
+				else
+					s = Variables.player.Skin;
+				if (Variables.TempAvaHead > -1)
+					avh = Variables.TempAvaHead;
+				else
+					avh = Variables.player.AvaHead;
+				if (Variables.TempAvaShoulder > -1)
+					avs = Variables.TempAvaShoulder;
+				else
+					avs = Variables.player.AvaShoulder;
+				if (Variables.TempAvaChest > -1)
+					avc = Variables.TempAvaChest;
+				else
+					avc = Variables.player.AvaChest;
+				UpgradeObject tank; UpgradeObject skin; UpgradeObject avaHead; UpgradeObject avaShoulder; UpgradeObject avaChest;
+				string stank; string sskin; string savaHead; string savaShoulder; string savaChest;
+
+				tank = TextFileHelper.GetUpgradeObjectFromTextFile(t, "Tanks");
+				skin = TextFileHelper.GetUpgradeObjectFromTextFile(s, "Skins");
+				avaHead = TextFileHelper.GetUpgradeObjectFromTextFile(avh, "AvatarHead");
+				avaShoulder = TextFileHelper.GetUpgradeObjectFromTextFile(avs, "AvatarShoulder");
+				avaChest = TextFileHelper.GetUpgradeObjectFromTextFile(avc, "AvatarChest");
+
+				GoldTxtBlk.Text = Variables.player.Gold.ToString();
+				AttackTxtBlk.Text = (tank.Attack + skin.Attack + avaHead.Attack + avaShoulder.Attack + avaChest.Attack).ToString();
+				DefenseTxtBlk.Text = (tank.Defense + skin.Defense + avaHead.Defense + avaShoulder.Defense + avaChest.Defense).ToString();
+				HealthTxtBlk.Text = (tank.Health + skin.Health + avaHead.Health + avaShoulder.Health + avaChest.Health).ToString();
+				MoveTxtBlk.Text = (tank.Move + skin.Move + avaHead.Move + avaShoulder.Move + avaChest.Move).ToString();
+				ShieldTxtBlk.Text = (tank.Shield + skin.Shield + avaHead.Shield + avaShoulder.Shield + avaChest.Shield).ToString();
+				PopularityTxtBlk.Text = (tank.Popularity + skin.Popularity + avaHead.Popularity + avaShoulder.Popularity + avaChest.Popularity).ToString();
+
+				stank = tank.FilePath.Replace(".png", "");
+				sskin = skin.FilePath.Replace(".png", "");
+				savaHead = avaHead.FilePath.Replace(".png", "");
+				savaShoulder = avaShoulder.FilePath.Replace(".png", "");
+				savaChest = avaChest.FilePath.Replace(".png", "");
+
+				if (m_game != null)
+					m_game.Dispose();
+				m_game = new CharacterControl.Game1(stank, sskin, savaHead, savaShoulder, savaChest, xnaCharControl.Handle);
+			}
+			else
+			{
+				this.GoldTxtBlk.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal,
+						new SetCharacterInfoer(this.SetCharacterInfo));
+			}
+		}
+	}
+}

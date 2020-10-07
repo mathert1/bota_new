@@ -1,0 +1,167 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Windows.Threading;
+using System.Windows.Forms;
+using MSCommon;
+using Lidgren.Network;
+
+namespace WpfTest
+{
+	public class Program
+	{
+		//public WpfTest.App app;
+
+		ScreenManager screenMan;
+		
+		static void Main()
+		{
+			Program program = new Program();
+		}
+		public Program()
+		{
+			ServerConnection.Connect();
+			screenMan = new ScreenManager();
+			screenMan.OpenLoginWindow();
+
+			Application.Idle += new EventHandler(AppIdle);
+			Application.ApplicationExit += new EventHandler(this.OnApplicationExit);
+			Application.Run();
+		}		
+		
+		public void AppIdle(object sender, EventArgs e)
+		{
+			while (NativeMethods.AppStillIdle)
+			{
+				NetIncomingMessage inc;
+				while ((inc = ServerConnection.m_client.ReadMessage()) != null)
+				{
+					switch (inc.MessageType)
+					{
+						case NetIncomingMessageType.VerboseDebugMessage:
+						case NetIncomingMessageType.DebugMessage:
+						case NetIncomingMessageType.WarningMessage:
+						case NetIncomingMessageType.ErrorMessage:
+							inc.ReadString();
+							break;
+						case NetIncomingMessageType.UnconnectedData:
+							break;
+						case NetIncomingMessageType.Data:
+							switch ((MasterServerMessageType)inc.ReadByte())
+							{
+								case MasterServerMessageType.RequestLogin:
+									bool login = inc.ReadBoolean();
+									if (login)
+									{
+										screenMan.CloseLoginWindow();
+										
+										screenMan.OpenMainScreen();
+                                        //Thread.Sleep(500); This was to stop buddylist from trying to be updated before screen was loaded.
+									}
+									else
+									{
+										MessageBox.Show("Login Failed.");
+									}
+									break;		
+								case MasterServerMessageType.CreateAccount:
+									bool success = inc.ReadBoolean();
+									if (success)
+									{
+										MessageBox.Show("Account Successfully Created.", "Account");
+									}
+									else
+									{
+										MessageBox.Show("Invalid Username.", "Oops!");
+									}
+									break;
+								case MasterServerMessageType.SendMessage:
+									string chat = inc.ReadString();
+									string name = inc.ReadString();
+									string msg = inc.ReadString();
+
+									screenMan.AddMessage(chat, name, msg);
+									break;
+								case MasterServerMessageType.SendBuddyList:
+									int buddyListCount = inc.ReadInt32();
+									List<string> buddyList = new List<string>();
+									for (int i = 1; i <= buddyListCount; i++)
+									{
+										buddyList.Add(inc.ReadString());
+									}
+									screenMan.RefreshBuddyList(buddyList);
+									break;
+								case MasterServerMessageType.AddBuddy:
+									bool added = inc.ReadBoolean();
+									if (added)									
+										MessageBox.Show("Buddy added successfully.", "Success!");									
+									else
+										MessageBox.Show("Error adding buddy.", "Failure!");	
+									break;
+								case MasterServerMessageType.CharacterInfo:
+									Variables.player.UserName = inc.ReadString();
+									Variables.player.Rank = inc.ReadInt32();
+									Variables.player.Tank = inc.ReadInt32();
+									Variables.player.Skin = inc.ReadInt32();
+									Variables.player.AvaHead = inc.ReadInt32();
+									Variables.player.AvaShoulder = inc.ReadInt32();
+									Variables.player.AvaChest = inc.ReadInt32();									
+									Variables.player.Gold = inc.ReadInt32();																	
+									screenMan.SetCharacterInfo();
+									break;
+								case MasterServerMessageType.RequestTanks:
+									int tankListCount = inc.ReadInt32();
+									List<CharTank> tankList = new List<CharTank>();
+									for (int i = 1; i <= tankListCount; i++)
+									{
+										CharTank tempTank = new CharTank();
+										tempTank.ID = inc.ReadInt32();
+										tempTank.Rank = inc.ReadInt32();
+										tempTank.shot1 = inc.ReadInt32();
+										tempTank.shot2 = inc.ReadInt32();
+										tempTank.shot3 = inc.ReadInt32();
+										tempTank.item1 = inc.ReadInt32();
+										tempTank.item2 = inc.ReadInt32();
+										tempTank.item3 = inc.ReadInt32();
+										tankList.Add(tempTank);
+									}
+									screenMan.SetTankList(tankList);
+									break;
+								case MasterServerMessageType.RequestAvatar:
+									int avaListCount = inc.ReadInt32();
+									List<int> avaList = new List<int>();
+									for (int i = 1; i <= avaListCount; i++)
+									{
+										int avaID = inc.ReadInt32();
+										int type = inc.ReadInt32();
+										avaList.Add(avaID);
+										avaList.Add(type);
+									}
+									screenMan.SetAvatarList(avaList);
+									break;
+								case MasterServerMessageType.PurchaseItem:
+									bool purchased = inc.ReadBoolean();
+									if (purchased)
+										MessageBox.Show("Item Purchased!", "WOO!");
+									else
+										MessageBox.Show("Insufficient funds.", "Boo!");
+									break;
+							}
+
+							break;
+						case NetIncomingMessageType.NatIntroductionSuccess:
+							string token = inc.ReadString();
+							MessageBox.Show("Nat introduction success to " + inc.SenderEndpoint + " token is: " + token);
+							break;
+					}                    
+				}
+			}
+		}
+
+		private void OnApplicationExit(object sender, EventArgs e)
+		{
+			ServerConnection.Disconnect();
+		}
+	}
+}

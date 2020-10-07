@@ -1,0 +1,393 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Windows;
+using System.Windows.Threading;
+using System.Threading;
+using System.Windows.Controls;
+using MSCommon;
+
+namespace WpfTest
+{
+	public class ScreenManager
+	{
+		public Thread loginWindowThread;
+		public Thread MainScreenThread;
+		public Thread EditCharWindowThread;
+		public Thread ShopWindowThread;
+		public Thread NewTankWindowThread;
+		public Thread GameWindowThread;
+
+		public LoginWindow logwin;
+		public MainScreen MS;
+		public EditCharacterWindow editCharWin;
+		public ShopWindow shopWin;
+		public GameWindow gameWin;
+
+		public GameInfo gameInfo;
+
+        public Player localPlayer;
+
+		public void OpenLoginWindow()
+		{
+			loginWindowThread = new Thread(() =>
+			{
+				logwin = new LoginWindow();
+				logwin.Show();
+				//logwin.Closed += (s, e) => logwin.Dispatcher.InvokeShutdown();
+                logwin.btnClose.Click += CloseLoginWindow;
+                logwin.btnLogin.Click += TryLogin;
+				Dispatcher.Run();
+			});
+			loginWindowThread.SetApartmentState(ApartmentState.STA);
+			loginWindowThread.Start();
+		}
+
+        private void CloseLoginWindow(object sender, System.EventArgs e)
+        {
+            logwin.Close();
+        }        
+
+        private void TryLogin(object sender, System.EventArgs e)
+        {
+            ServerConnection.TryLogin(logwin.txtUserName.Text, logwin.txtPassword.Password);	
+        }
+
+		private delegate void LoginWindowCloser();
+		public void CloseLoginWindow()
+		{
+			if (this.logwin.Dispatcher.CheckAccess())
+			{
+				logwin.Close();
+			}
+			else
+			{
+				this.logwin.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal,
+					new LoginWindowCloser(this.CloseLoginWindow));
+			}
+			//loginWindowThread.Abort();
+		}        
+
+		public void OpenMainScreen()
+		{
+			MainScreenThread = new Thread(() =>
+			{
+				MS = new MainScreen();
+				MS.Show();
+                MS.btnQuit.Click += CloseMainWindow;                
+                MS.editBtn.Click += OpenEditCharacterWindow;
+				//MS.Closed += (s, e) => MS.Dispatcher.InvokeShutdown();
+				Dispatcher.Run();
+			});
+			MainScreenThread.SetApartmentState(ApartmentState.STA);
+			MainScreenThread.Start();			
+		}
+
+        private void CloseMainWindow(object sender, System.EventArgs e)
+        {
+            ServerConnection.Disconnect();
+            MS.Close();
+        }
+
+        private void OpenEditCharacterWindow(object sender, System.EventArgs e)
+        {
+            if (EditCharWindowThread == null)
+            {
+                EditCharWindowThread = new Thread(() =>
+                {
+                    //Tuple<double, double> winLoc = GetWindowPosition(windows.MS);
+                    //Variables.screenPos = new Tuple<double, double>(MS.Left, MS.Top);
+                    editCharWin = new EditCharacterWindow(Variables.screenPos.Item1, Variables.screenPos.Item2, localPlayer);//, (int)MS.Top, (int)MS.Left);
+                    editCharWin.Show();
+                    HideMainScreen();
+                    editCharWin.cancelBtn.Click += CloseEditCharacterWindow;
+                    editCharWin.doneBtn.Click += CloseEditCharacterWindow;
+                    editCharWin.shopBtn.Click += CloseEditCharacterWindow;
+                    editCharWin.shopBtn.Click += OpenShopWindow;
+                    //editCharWin.Closed += (s, e) => editCharWin.Dispatcher.InvokeShutdown();
+                    Dispatcher.Run();
+                });
+                EditCharWindowThread.SetApartmentState(ApartmentState.STA);
+                EditCharWindowThread.Start();
+            }
+            //else //DO I NEED THIS?
+            //{
+            //    ClearTempCharacterInfo();
+            //    CloseEditCharacterWindow();
+            //}
+        }
+
+        public void CloseEditCharacterWindow(object sender, System.EventArgs e)
+        {
+            if (editCharWin.tempTank != 0)
+                localPlayer.Tank = editCharWin.tempTank;
+            if (editCharWin.tempSkin != 0)
+                localPlayer.Skin = editCharWin.tempSkin;
+            if (editCharWin.tempAvaHead > -1)
+                localPlayer.AvaHead = editCharWin.tempAvaHead;
+            if (editCharWin.tempAvaShoulder > -1)
+                localPlayer.AvaShoulder = editCharWin.tempAvaShoulder;
+            if (editCharWin.tempAvaChest > -1)
+                localPlayer.AvaChest = editCharWin.tempAvaChest;            
+
+            ShowMainScreen();
+            editCharWin.Close();
+            EditCharWindowThread = null;
+            SetCharacterInfo(localPlayer);
+        }        
+
+        private void OpenShopWindow(object sender, System.EventArgs e)
+        {
+            if (ShopWindowThread == null)
+            {
+                ShopWindowThread = new Thread(() =>
+                {                    
+                    shopWin = new ShopWindow(this, Variables.screenPos.Item1, Variables.screenPos.Item2, localPlayer);
+                    shopWin.Show();
+                    shopWin.doneBtn.Click += CloseShopWindow;
+                    //shopWin.Closed += (s, e) => shopWin.Dispatcher.InvokeShutdown();
+                    Dispatcher.Run();
+                });
+                ShopWindowThread.SetApartmentState(ApartmentState.STA);
+                ShopWindowThread.Start();
+            }
+            //else //DO I NEED THIS??
+            //{
+            //    ClearTempCharacterInfo();
+            //    CloseShopWindow();
+            //}
+        }
+
+        public void CloseShopWindow(object sender, System.EventArgs e)
+        {
+            shopWin.Close();
+            ShopWindowThread = null;
+            SetCharacterInfo(localPlayer);
+        }       
+
+		private delegate void MainScreenHider();
+		public void HideMainScreen()
+		{
+            if (this.MS.Dispatcher.CheckAccess())
+            {
+                MS.gameSearchOverlay.Visibility = Visibility.Hidden;
+                MS.Hide();
+            }
+            else
+            {
+                this.MS.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal,
+                    new MainScreenHider(this.HideMainScreen));
+            }
+		}
+
+		private delegate void MainScreenShower();
+		public void ShowMainScreen()
+		{
+			if (this.MS.Dispatcher.CheckAccess())
+				MS.Show();
+			else
+			{
+				this.MS.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal,
+					new MainScreenShower(this.ShowMainScreen));
+			}
+		}
+
+        public void OpenGameWindow()
+        {
+            if (GameWindowThread == null)
+            {
+                GameWindowThread = new Thread(() =>
+                {
+                    gameWin = new GameWindow(gameInfo, localPlayer.ID, Variables.screenPos.Item1, Variables.screenPos.Item2);//, (int)MS.Top, (int)MS.Left);					
+                    gameWin.Show();
+                    HideMainScreen();
+                    gameWin.btnQuit.Click += CloseGameWindow;
+                    gameWin.quitBtn.Click += CloseGameWindow;
+                    //gameWin.Closed += (s, e) => gameWin.Dispatcher.InvokeShutdown();
+                    Dispatcher.Run();
+                });
+                GameWindowThread.SetApartmentState(ApartmentState.STA);
+                GameWindowThread.Start();
+            }
+            else
+            {
+            }
+        }
+
+        public void CloseGameWindow(object sender, System.EventArgs e)
+        {
+            ShowMainScreen();
+            gameWin.Close();
+            GameWindowThread = null;
+            //SetCharacterInfo(localPlayer);
+            ServerConnection.RequestCharacterInfo();
+        }
+        
+		public void ShowGameSearchOverlay()
+		{
+			MS.ShowGameSearchOverlay();
+		}
+
+		public void AddMessage(string _chat, string _name, string _msg)
+		{
+			MS.AddMessage(_chat, _name, _msg);
+		}
+
+		public void RefreshBuddyList(List<string> buddyList)
+		{			
+			MS.RefreshBuddyList(buddyList);			          
+		}
+
+		public void SaveCharacterInfo(Player p)
+		{
+            localPlayer = p;
+            ServerConnection.UpdateCharacterInfo(p);
+		}
+
+		public void SetCharacterInfo(Player p)
+		{
+            localPlayer = p;
+			if (ShopWindowThread == null)
+			{
+				if (EditCharWindowThread == null)
+				{
+					MS.SetCharacterInfo(p);
+				}
+				else
+				{
+					editCharWin.SetCharacterInfo(p);
+				}
+			}
+			else
+			{
+				shopWin.SetCharacterInfo(p);
+			}					
+		}
+
+        public void SubtractPlayerGold(int goldCost)
+        {
+            localPlayer.Gold -= goldCost;
+        }
+
+		public void SetTankList(List<CharTank> CT)
+		{
+			editCharWin.SetUpTankList(CT);
+		}
+
+		public void SetAvatarList(List<int> AL)
+		{
+			editCharWin.SetUpAvaList(AL);
+		}
+
+		public void PurchaseItem(int type, int ID)
+		{
+			ServerConnection.PurchaseItem(type, ID);
+		}
+
+		public void SetGamePlayerList(List<Player> pList, string mapname, string backName, int gID, int teamLives, int startPlayerID)
+		{
+			gameInfo = new GameInfo();
+			gameInfo.playerList = pList;
+			gameInfo.mapName = mapname;
+			gameInfo.backgroundName = backName;
+			gameInfo.gameID = gID;
+            gameInfo.teamLives = teamLives;
+            gameInfo.startPlayerID = startPlayerID;
+		}
+
+		public void UpdatePlayerPositions(int i, int posX, int posY, int midX, int midY, float rotate, int pEnergy)
+		{
+			try
+			{
+                Game.Character p = gameWin.game.Characters[i];
+                if (p.Position.X < posX)
+                {
+                    p.Facing = "right";
+                }
+                else if (p.Position.X > posX)
+                {
+                    p.Facing = "left";
+                }
+                else
+                {
+
+                }
+				p.Position.X = posX;
+				p.Position.Y = posY;
+                p.PlayerMid.X = midX;
+                p.PlayerMid.Y = midY;
+                p.Rotate = rotate;
+                p.Energy = pEnergy;
+			}
+			catch
+			{
+                
+			}					
+		}
+
+		public void CreateRocket(int x, int y, int pow, float ang)
+		{
+			gameWin.game.CreateRocket(x, y, pow, ang);
+		}
+
+		public void RocketCollisionLand(int i, int x, int y, int r)
+		{
+			gameWin.game.env.AddCrater(x, y, r);
+			gameWin.game.Rockets.Remove(gameWin.game.Rockets[i]);
+		}
+
+		public void RocketCollisionPlayer(int i)
+		{
+			gameWin.game.Rockets.Remove(gameWin.game.Rockets[i]);
+			//gameWin.game.UpdatePlayerHealth(h, id);
+		}
+
+        public void ChangeWind(float windAngle, int windPower, float windSpeedX, float windSpeedY)
+        {
+            gameWin.game.env.WindAngle = windAngle;
+            gameWin.game.env.WindPower = windPower;
+            gameWin.game.env.WindSpeed.X = windSpeedX;
+            gameWin.game.env.WindSpeed.Y = windSpeedY;
+        }
+
+        public void KillPlayer(int killedPlayerID, int playerKillerID, int redLives, int blueLives)
+        {
+            gameWin.game.KillPlayer(killedPlayerID, playerKillerID, redLives, blueLives);
+        }
+
+        public void DamagePlayer(int damagedPlayerID, int dmg)
+        {
+            gameWin.game.DamagePlayer(damagedPlayerID, dmg);
+            gameWin.game.UpdatePlayerHealth(dmg, damagedPlayerID);
+        }
+
+        public void GivePlayerMoney(int moneyPlayerID, int money)
+        {
+            gameWin.game.GivePlayerMoney(moneyPlayerID, money);
+        }
+
+        public void ChangeTurn(int playerTurnID)
+        {
+            gameWin.game.ChangeTurn(playerTurnID);
+        }
+
+        public void EndGame(bool win)
+        {
+            //Need to handle more appropriately.
+            gameWin.ShowGameOverOverlay(); 
+            if (win)
+                MessageBox.Show("You win!!!", "GAME OVER");
+            else
+                MessageBox.Show("You lose. :(", "GAME OVER");                  
+        }
+
+		public enum windows
+		{
+			logwin,
+			MS,
+			editCharWin,
+			newTankWin
+		}		
+	}
+}

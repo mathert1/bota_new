@@ -1,0 +1,103 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+using MSCommon;
+
+namespace WpfTest.GUI
+{
+	/// <summary>
+	/// Interaction logic for UpgradeObjectControl.xaml
+	/// </summary>
+	public partial class UpgradeObjectControl : UserControl
+	{
+		public UpgradeObjectControl()
+		{
+			InitializeComponent();
+
+			stackPanel1.Visibility = System.Windows.Visibility.Hidden;
+		}
+
+		private void UserControl_MouseEnter(object sender, MouseEventArgs e)
+		{
+			stackPanel1.Visibility = System.Windows.Visibility.Visible;
+		}
+
+		private void UserControl_MouseLeave(object sender, MouseEventArgs e)
+		{
+			stackPanel1.Visibility = System.Windows.Visibility.Hidden;
+		}		
+
+		private void equipBtn_Click(object sender, RoutedEventArgs e)
+		{			
+			int x = Convert.ToInt32(IDtxtBlk.Text);
+			UpgradeObject tempObj = this.DataContext as UpgradeObject;
+			if(tempObj.Type == 1)
+			{
+				Variables.TempTank = x;
+				var owner = FindVisualParent<Window>(this);
+                EditCharacterWindow test = owner as EditCharacterWindow;
+				test.UpdateChar();				
+			}			
+			else if (tempObj.Type == 2)
+			{
+				Variables.TempAvaHead = x;
+				var owner1 = FindVisualParent<Window>(this);
+				EditCharacterWindow test1 = owner1 as EditCharacterWindow;
+				test1.UpdateChar();
+			}
+			else if (tempObj.Type == 3)
+			{
+				Variables.TempAvaShoulder = x;
+				var owner1 = FindVisualParent<Window>(this);
+				EditCharacterWindow test1 = owner1 as EditCharacterWindow;
+				test1.UpdateChar();
+			}
+			else if (tempObj.Type == 4)
+			{
+				Variables.TempAvaChest = x;
+				var owner1 = FindVisualParent<Window>(this);
+				EditCharacterWindow test1 = owner1 as EditCharacterWindow;
+				test1.UpdateChar();
+			}
+			else if (tempObj.Type == 5)
+			{
+				Variables.TempSkin = x;
+				var owner1 = FindVisualParent<Window>(this);
+				EditCharacterWindow test1 = owner1 as EditCharacterWindow;
+				test1.UpdateChar();
+			}            
+		}
+
+        public static T FindVisualParent<T>(DependencyObject child)
+            where T : DependencyObject
+        {
+            // get parent item
+            DependencyObject parentObject = VisualTreeHelper.GetParent(child);
+
+            // we’ve reached the end of the tree
+            if (parentObject == null) return null;
+
+            // check if the parent matches the type we’re looking for
+            T parent = parentObject as T;
+            if (parent != null)
+            {
+                return parent;
+            }
+            else
+            {
+                // use recursion to proceed with next level
+                return FindVisualParent<T>(parentObject);
+            }
+        }
+	}
+}

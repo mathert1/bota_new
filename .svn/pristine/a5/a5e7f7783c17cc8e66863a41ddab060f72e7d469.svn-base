@@ -1,0 +1,23 @@
+﻿using System;
+
+namespace MSCommon
+{
+	public enum MasterServerMessageType
+	{
+		RegisterHost,
+		RequestHostList,
+		RequestIntroduction,
+		RequestGameRooms,
+		CreateAccount,
+		RequestLogin,
+		SendMessage,
+		AddBuddy,
+		SendBuddyList,
+		CharacterInfo,
+		UpdateCharacterInfo,
+		RequestTanks,
+		RequestAvatar,
+		PurchaseItem,
+		Disconnect
+	}
+}

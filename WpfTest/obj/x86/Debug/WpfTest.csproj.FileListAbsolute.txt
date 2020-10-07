@@ -1,0 +1,82 @@
+C:\Users\Grand Champ\Desktop\bota_new\WpfTest\bin\Debug\GUI\ChatControl.xaml.cs
+C:\Users\Grand Champ\Desktop\bota_new\WpfTest\bin\Debug\WpfTest.exe
+C:\Users\Grand Champ\Desktop\bota_new\WpfTest\bin\Debug\WpfTest.pdb
+C:\Users\Grand Champ\Desktop\bota_new\WpfTest\bin\Debug\Lidgren.Network.dll
+C:\Users\Grand Champ\Desktop\bota_new\WpfTest\bin\Debug\MSCommon.dll
+C:\Users\Grand Champ\Desktop\bota_new\WpfTest\bin\Debug\MSCommon.pdb
+C:\Users\Grand Champ\Desktop\bota_new\WpfTest\obj\x86\Debug\App.baml
+C:\Users\Grand Champ\Desktop\bota_new\WpfTest\obj\x86\Debug\GUI\ChatControl.baml
+C:\Users\Grand Champ\Desktop\bota_new\WpfTest\obj\x86\Debug\GUI\UpgradeObjectControl.baml
+C:\Users\Grand Champ\Desktop\bota_new\WpfTest\obj\x86\Debug\LoginWindow.baml
+C:\Users\Grand Champ\Desktop\bota_new\WpfTest\obj\x86\Debug\App.g.cs
+C:\Users\Grand Champ\Desktop\bota_new\WpfTest\obj\x86\Debug\EditCharacterWindow.g.cs
+C:\Users\Grand Champ\Desktop\bota_new\WpfTest\obj\x86\Debug\GUI\ChatControl.g.cs
+C:\Users\Grand Champ\Desktop\bota_new\WpfTest\obj\x86\Debug\GUI\UpgradeObjectControl.g.cs
+C:\Users\Grand Champ\Desktop\bota_new\WpfTest\obj\x86\Debug\MainScreen.g.cs
+C:\Users\Grand Champ\Desktop\bota_new\WpfTest\obj\x86\Debug\LoginWindow.g.cs
+C:\Users\Grand Champ\Desktop\bota_new\WpfTest\obj\x86\Debug\GeneratedInternalTypeHelper.g.cs
+C:\Users\Grand Champ\Desktop\bota_new\WpfTest\obj\x86\Debug\WpfTest_MarkupCompile.cache
+C:\Users\Grand Champ\Desktop\bota_new\WpfTest\obj\x86\Debug\WpfTest_MarkupCompile.lref
+C:\Users\Grand Champ\Desktop\bota_new\WpfTest\obj\x86\Debug\EditCharacterWindow.baml
+C:\Users\Grand Champ\Desktop\bota_new\WpfTest\obj\x86\Debug\MainScreen.baml
+C:\Users\Grand Champ\Desktop\bota_new\WpfTest\obj\x86\Debug\WpfTest.g.resources
+C:\Users\Grand Champ\Desktop\bota_new\WpfTest\obj\x86\Debug\WpfTest.Properties.Resources.resources
+C:\Users\Grand Champ\Desktop\bota_new\WpfTest\obj\x86\Debug\WpfTest.exe
+C:\Users\Grand Champ\Desktop\bota_new\WpfTest\obj\x86\Debug\WpfTest.pdb
+C:\Users\Grand Champ\Desktop\bota_new\WpfTest\obj\x86\Debug\GUI\ShopObjectControl.baml
+C:\Users\Grand Champ\Desktop\bota_new\WpfTest\obj\x86\Debug\GUI\ShopObjectControl.g.cs
+C:\Users\Grand Champ\Desktop\bota_new\WpfTest\obj\x86\Debug\ShopWindow.g.cs
+C:\Users\Grand Champ\Desktop\bota_new\WpfTest\obj\x86\Debug\ShopWindow.baml
+C:\Users\Grand Champ\Desktop\bota_new\WpfTest\obj\x86\Debug\WpfTest.csprojResolveAssemblyReference.cache
+C:\Users\Grand Champ\Desktop\bota_new\WpfTest\obj\x86\Debug\WpfTest.csproj.GenerateResource.Cache
+C:\Users\Grand Champ\Desktop\bota_new\WpfTest\bin\Debug\WpfTest.exe.config
+C:\Users\Grand Champ\Desktop\bota_new\WpfTest\bin\Debug\Controls\GameControl.xaml.cs
+C:\Users\Grand Champ\Desktop\bota_new\WpfTest\bin\Debug\Controls\CharacterControl.xaml.cs
+C:\Users\Grand Champ\Desktop\bota_new\WpfTest\obj\x86\Debug\Controls\CharacterControl.baml
+C:\Users\Grand Champ\Desktop\bota_new\WpfTest\obj\x86\Debug\Controls\GameControl.baml
+C:\Users\Grand Champ\Desktop\bota_new\WpfTest\obj\x86\Debug\Controls\CharacterControl.g.cs
+C:\Users\Grand Champ\Desktop\bota_new\WpfTest\obj\x86\Debug\Controls\GameControl.g.cs
+C:\Users\Grand Champ\Desktop\bota_new\WpfTest\obj\x86\Debug\GameWindow.g.cs
+C:\Users\Grand Champ\Desktop\bota_new\WpfTest\obj\x86\Debug\GameWindow.baml
+C:\Users\Tyler\Desktop\bota_new\WpfTest\bin\Debug\Controls\GameControl.xaml.cs
+C:\Users\Tyler\Desktop\bota_new\WpfTest\bin\Debug\GUI\ChatControl.xaml.cs
+C:\Users\Tyler\Desktop\bota_new\WpfTest\bin\Debug\Controls\CharacterControl.xaml.cs
+C:\Users\Tyler\Desktop\bota_new\WpfTest\bin\Debug\WpfTest.exe.config
+C:\Users\Tyler\Desktop\bota_new\WpfTest\bin\Debug\WpfTest.exe
+C:\Users\Tyler\Desktop\bota_new\WpfTest\bin\Debug\WpfTest.pdb
+C:\Users\Tyler\Desktop\bota_new\WpfTest\bin\Debug\Lidgren.Network.dll
+C:\Users\Tyler\Desktop\bota_new\WpfTest\bin\Debug\MSCommon.dll
+C:\Users\Tyler\Desktop\bota_new\WpfTest\bin\Debug\MSCommon.pdb
+C:\Users\Tyler\Desktop\bota_new\WpfTest\obj\x86\Debug\WpfTest.csprojAssemblyReference.cache
+C:\Users\Tyler\Desktop\bota_new\WpfTest\obj\x86\Debug\App.baml
+C:\Users\Tyler\Desktop\bota_new\WpfTest\obj\x86\Debug\Controls\CharacterControl.baml
+C:\Users\Tyler\Desktop\bota_new\WpfTest\obj\x86\Debug\Controls\GameControl.baml
+C:\Users\Tyler\Desktop\bota_new\WpfTest\obj\x86\Debug\GUI\ChatControl.baml
+C:\Users\Tyler\Desktop\bota_new\WpfTest\obj\x86\Debug\GUI\ShopObjectControl.baml
+C:\Users\Tyler\Desktop\bota_new\WpfTest\obj\x86\Debug\GUI\UpgradeObjectControl.baml
+C:\Users\Tyler\Desktop\bota_new\WpfTest\obj\x86\Debug\LoginWindow.baml
+C:\Users\Tyler\Desktop\bota_new\WpfTest\obj\x86\Debug\App.g.cs
+C:\Users\Tyler\Desktop\bota_new\WpfTest\obj\x86\Debug\Controls\CharacterControl.g.cs
+C:\Users\Tyler\Desktop\bota_new\WpfTest\obj\x86\Debug\Controls\GameControl.g.cs
+C:\Users\Tyler\Desktop\bota_new\WpfTest\obj\x86\Debug\EditCharacterWindow.g.cs
+C:\Users\Tyler\Desktop\bota_new\WpfTest\obj\x86\Debug\GameWindow.g.cs
+C:\Users\Tyler\Desktop\bota_new\WpfTest\obj\x86\Debug\GUI\ChatControl.g.cs
+C:\Users\Tyler\Desktop\bota_new\WpfTest\obj\x86\Debug\GUI\ShopObjectControl.g.cs
+C:\Users\Tyler\Desktop\bota_new\WpfTest\obj\x86\Debug\GUI\UpgradeObjectControl.g.cs
+C:\Users\Tyler\Desktop\bota_new\WpfTest\obj\x86\Debug\MainScreen.g.cs
+C:\Users\Tyler\Desktop\bota_new\WpfTest\obj\x86\Debug\LoginWindow.g.cs
+C:\Users\Tyler\Desktop\bota_new\WpfTest\obj\x86\Debug\ShopWindow.g.cs
+C:\Users\Tyler\Desktop\bota_new\WpfTest\obj\x86\Debug\GeneratedInternalTypeHelper.g.cs
+C:\Users\Tyler\Desktop\bota_new\WpfTest\obj\x86\Debug\WpfTest_MarkupCompile.cache
+C:\Users\Tyler\Desktop\bota_new\WpfTest\obj\x86\Debug\WpfTest_MarkupCompile.lref
+C:\Users\Tyler\Desktop\bota_new\WpfTest\obj\x86\Debug\EditCharacterWindow.baml
+C:\Users\Tyler\Desktop\bota_new\WpfTest\obj\x86\Debug\GameWindow.baml
+C:\Users\Tyler\Desktop\bota_new\WpfTest\obj\x86\Debug\MainScreen.baml
+C:\Users\Tyler\Desktop\bota_new\WpfTest\obj\x86\Debug\ShopWindow.baml
+C:\Users\Tyler\Desktop\bota_new\WpfTest\obj\x86\Debug\WpfTest.g.resources
+C:\Users\Tyler\Desktop\bota_new\WpfTest\obj\x86\Debug\WpfTest.Properties.Resources.resources
+C:\Users\Tyler\Desktop\bota_new\WpfTest\obj\x86\Debug\WpfTest.csproj.GenerateResource.cache
+C:\Users\Tyler\Desktop\bota_new\WpfTest\obj\x86\Debug\WpfTest.csproj.CoreCompileInputs.cache
+C:\Users\Tyler\Desktop\bota_new\WpfTest\obj\x86\Debug\WpfTest.csproj.CopyComplete
+C:\Users\Tyler\Desktop\bota_new\WpfTest\obj\x86\Debug\WpfTest.exe
+C:\Users\Tyler\Desktop\bota_new\WpfTest\obj\x86\Debug\WpfTest.pdb

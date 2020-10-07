@@ -1,0 +1,5 @@
+1|1|FireTank|Tanks\FireTank.png|1000|25|5|0|0|10|10|0
+2|1|WaterTank|Tanks\WaterTank.png|1000|5|25|0|0|10|10|0
+3|1|EarthTank|Tanks\EarthTank.png|1500|5|25|0|0|10|10|0
+4|1|LavaTank|Tanks\LavaTank.png|2500|25|15|5|0|5|10|15
+5|1|ShadowTank|Tanks\ShadowTank.png|5000|30|15|0|0|25|15|0

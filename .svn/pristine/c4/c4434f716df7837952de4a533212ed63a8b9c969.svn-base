@@ -1,0 +1,41 @@
+﻿<Application x:Class="WpfTest.App"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 StartupUri="LoginWindow.xaml">
+	<Application.Resources>
+
+		<Style TargetType="{x:Type Button}">
+			<Setter Property="Background" Value="Black"/>
+			<Setter Property="Width" Value="80" />
+			<Setter Property="Height" Value="30" />
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="{x:Type Button}">
+						<Grid Width="{TemplateBinding Width}" Height="{TemplateBinding Height}"
+							ClipToBounds="True">
+
+							<!-- Inner Rectangle with rounded corners. -->
+							<Rectangle x:Name="innerRectangle" Stroke="White" StrokeThickness="2" 
+							  RadiusX="5" RadiusY="5" />							
+
+							<!-- Present Text of the button. -->
+							<DockPanel Name="myContentPresenterDockPanel">
+								<ContentPresenter x:Name="myContentPresenter" HorizontalAlignment=" Center" VerticalAlignment=" Center"
+									Content="{TemplateBinding  Content}" TextBlock.Foreground="White" />
+							</DockPanel>
+						</Grid>
+
+						<ControlTemplate.Triggers>
+							<!-- Set properties when mouse pointer is over the button. -->
+							<Trigger Property="IsMouseOver" Value="True">								
+								<Setter Property="Rectangle.Fill" TargetName="innerRectangle"
+										Value="White" />
+								<Setter Property="TextBlock.Foreground" TargetName="myContentPresenter" Value="Black" />
+							</Trigger>						
+						</ControlTemplate.Triggers>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
+	</Application.Resources>
+</Application>

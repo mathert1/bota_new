@@ -1,0 +1,66 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+using MSCommon;
+
+namespace WpfTest
+{
+	/// <summary>
+	/// Interaction logic for MainWindow.xaml
+	/// </summary>
+	public partial class LoginWindow : Window
+	{
+		ScreenManager screenMan;
+
+		public LoginWindow(ScreenManager SM)
+		{
+			InitializeComponent();
+			screenMan = SM;
+
+			this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+		}
+
+		private void btnClose_Click(object sender, RoutedEventArgs e)
+		{
+			screenMan.CloseLoginWindow();
+			//Application.Current.Shutdown();
+		}
+
+		private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+		{
+			this.DragMove();
+		}
+
+		private void btnLogin_Click(object sender, RoutedEventArgs e)
+		{			
+			ServerConnection.TryLogin(txtUserName.Text, txtPassword.Password);				
+		}
+
+		private void btnNewAccount_Click(object sender, RoutedEventArgs e)
+		{
+			if (txtUserName.Text.Length < 3)
+			{
+				MessageBox.Show("Username must be at least 3 characters.", "Invalid Username");
+			}
+			else if (txtPassword.Password.Length < 3)
+			{
+				MessageBox.Show("Password must be at least 3 characters.", "Invalid Password");
+			}
+			else
+			{
+				ServerConnection.CreateAccount(txtUserName.Text, txtPassword.Password);
+			}
+		}
+
+	}
+}

@@ -1,0 +1,34 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Lidgren.Network;
+using Microsoft.Xna.Framework;
+
+namespace Server
+{
+	public class GamePlayer: Player
+	{
+		public bool Ready = false;		
+		public Vector2 Position;
+		public Vector2 PlayerMid;
+		public int Width;
+		public int Height;
+		public int Radius;
+		//public float Health;
+		public int Score = 0;
+		public float Rotate;
+
+		public Rectangle BoundingBox
+		{
+			get
+			{
+				return new Rectangle(
+					(int)Position.X,
+					(int)Position.Y,
+					Width,
+					Height);
+			}
+		}
+	}
+}

@@ -1,0 +1,190 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XnaContent xmlns:Pipeline="Microsoft.Xna.Framework.Content.Pipeline">
+  <Asset Type="Pipeline:BuildItemCollection">
+    <Item>
+      <Source>DebugFont.spritefont</Source>
+      <Name>DebugFont</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Grand Champ\Desktop\bota_new\CharacterControl\CharacterControl\bin\x86\Debug\Content\DebugFont.xnb</Output>
+      <Time>2013-02-19T20:45:17.6338468-06:00</Time>
+    </Item>
+    <Item>
+      <Source>Tanks\EarthTank.png</Source>
+      <Name>Tanks\EarthTank</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Grand Champ\Desktop\bota_new\CharacterControl\CharacterControl\bin\x86\Debug\Content\Tanks\EarthTank.xnb</Output>
+      <Time>2013-02-19T20:45:17.5448417-06:00</Time>
+    </Item>
+    <Item>
+      <Source>Tanks\FireTank.png</Source>
+      <Name>Tanks\FireTank</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Grand Champ\Desktop\bota_new\CharacterControl\CharacterControl\bin\x86\Debug\Content\Tanks\FireTank.xnb</Output>
+      <Time>2013-02-19T20:45:17.5478419-06:00</Time>
+    </Item>
+    <Item>
+      <Source>Tanks\LavaTank.png</Source>
+      <Name>Tanks\LavaTank</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Grand Champ\Desktop\bota_new\CharacterControl\CharacterControl\bin\x86\Debug\Content\Tanks\LavaTank.xnb</Output>
+      <Time>2013-02-19T20:45:17.5458418-06:00</Time>
+    </Item>
+    <Item>
+      <Source>Tanks\ShadowTank.png</Source>
+      <Name>Tanks\ShadowTank</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Grand Champ\Desktop\bota_new\CharacterControl\CharacterControl\bin\x86\Debug\Content\Tanks\ShadowTank.xnb</Output>
+      <Time>2013-02-19T20:45:17.548842-06:00</Time>
+    </Item>
+    <Item>
+      <Source>Tanks\Watertank.png</Source>
+      <Name>Tanks\Watertank</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Grand Champ\Desktop\bota_new\CharacterControl\CharacterControl\bin\x86\Debug\Content\Tanks\Watertank.xnb</Output>
+      <Time>2013-02-19T20:45:17.5428416-06:00</Time>
+    </Item>
+    <Item>
+      <Source>Avatar\Chest\fire.png</Source>
+      <Name>Avatar\Chest\fire</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Grand Champ\Desktop\bota_new\CharacterControl\CharacterControl\bin\x86\Debug\Content\Avatar\Chest\fire.xnb</Output>
+      <Time>2013-02-19T20:45:17.6648486-06:00</Time>
+    </Item>
+    <Item>
+      <Source>Avatar\Head\fire.png</Source>
+      <Name>Avatar\Head\fire</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Grand Champ\Desktop\bota_new\CharacterControl\CharacterControl\bin\x86\Debug\Content\Avatar\Head\fire.xnb</Output>
+      <Time>2013-02-19T20:45:17.6378471-06:00</Time>
+    </Item>
+    <Item>
+      <Source>Avatar\Head\water.png</Source>
+      <Name>Avatar\Head\water</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Grand Champ\Desktop\bota_new\CharacterControl\CharacterControl\bin\x86\Debug\Content\Avatar\Head\water.xnb</Output>
+      <Time>2013-02-19T20:45:17.6358469-06:00</Time>
+    </Item>
+    <Item>
+      <Source>Avatar\Shoulder\fire.png</Source>
+      <Name>Avatar\Shoulder\fire</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Grand Champ\Desktop\bota_new\CharacterControl\CharacterControl\bin\x86\Debug\Content\Avatar\Shoulder\fire.xnb</Output>
+      <Time>2013-02-19T20:45:17.6508478-06:00</Time>
+    </Item>
+    <Item>
+      <Source>Avatar\Shoulder\water.PNG</Source>
+      <Name>Avatar\Shoulder\water</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Grand Champ\Desktop\bota_new\CharacterControl\CharacterControl\bin\x86\Debug\Content\Avatar\Shoulder\water.xnb</Output>
+      <Time>2013-02-19T20:45:17.6488477-06:00</Time>
+    </Item>
+    <Item>
+      <Source>Skins\skin.png</Source>
+      <Name>Skins\skin</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Grand Champ\Desktop\bota_new\CharacterControl\CharacterControl\bin\x86\Debug\Content\Skins\skin.xnb</Output>
+      <Time>2013-02-19T20:45:17.6158458-06:00</Time>
+    </Item>
+    <Item>
+      <Source>Skins\skin0.png</Source>
+      <Name>Skins\skin0</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Grand Champ\Desktop\bota_new\CharacterControl\CharacterControl\bin\x86\Debug\Content\Skins\skin0.xnb</Output>
+      <Time>2013-02-19T20:45:17.6168459-06:00</Time>
+    </Item>
+    <Item>
+      <Source>Skins\skin_blue.png</Source>
+      <Name>Skins\skin_blue</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Grand Champ\Desktop\bota_new\CharacterControl\CharacterControl\bin\x86\Debug\Content\Skins\skin_blue.xnb</Output>
+      <Time>2013-02-19T20:45:17.618846-06:00</Time>
+    </Item>
+    <Item>
+      <Source>Avatar\Chest\water.png</Source>
+      <Name>Avatar\Chest\water</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Grand Champ\Desktop\bota_new\CharacterControl\CharacterControl\bin\x86\Debug\Content\Avatar\Chest\water.xnb</Output>
+      <Time>2013-02-19T20:45:17.6598483-06:00</Time>
+    </Item>
+    <Item>
+      <Source>Avatar\none.png</Source>
+      <Name>Avatar\none</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Grand Champ\Desktop\bota_new\CharacterControl\CharacterControl\bin\x86\Debug\Content\Avatar\none.xnb</Output>
+      <Time>2013-02-19T20:45:17.6468476-06:00</Time>
+    </Item>
+    <BuildSuccessful>true</BuildSuccessful>
+    <Settings>
+      <TargetPlatform>Windows</TargetPlatform>
+      <TargetProfile>Reach</TargetProfile>
+      <BuildConfiguration>Debug</BuildConfiguration>
+      <CompressContent>false</CompressContent>
+      <RootDirectory>C:\Users\Grand Champ\Desktop\bota_new\CharacterControl\CharacterControlContent\</RootDirectory>
+      <LoggerRootDirectory>C:\Users\Grand Champ\Desktop\bota_new\CharacterControl\CharacterControl\</LoggerRootDirectory>
+      <IntermediateDirectory>C:\Users\Grand Champ\Desktop\bota_new\CharacterControl\CharacterControlContent\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>C:\Users\Grand Champ\Desktop\bota_new\CharacterControl\CharacterControl\bin\x86\Debug\Content\</OutputDirectory>
+    </Settings>
+    <Assemblies>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.XImporter.dll</Key>
+        <Value>2010-08-23T12:41:18-05:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.VideoImporters.dll</Key>
+        <Value>2010-08-23T12:41:18-05:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.TextureImporter.dll</Key>
+        <Value>2010-08-23T12:41:18-05:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.FBXImporter.dll</Key>
+        <Value>2010-08-23T12:41:18-05:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.EffectImporter.dll</Key>
+        <Value>2010-08-23T12:41:18-05:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.AudioImporters.dll</Key>
+        <Value>2010-08-23T12:41:18-05:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Windows\Microsoft.Net\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
+        <Value>2012-08-30T19:54:26.0745557-05:00</Value>
+      </Assembly>
+    </Assemblies>
+  </Asset>
+</XnaContent>

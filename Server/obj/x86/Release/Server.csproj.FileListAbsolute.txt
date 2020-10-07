@@ -1,0 +1,7 @@
+C:\Users\Grand Champ\Desktop\bota_new\Server\bin\Release\Server.exe
+C:\Users\Grand Champ\Desktop\bota_new\Server\bin\Release\Server.pdb
+C:\Users\Grand Champ\Desktop\bota_new\Server\bin\Release\Lidgren.Network.dll
+C:\Users\Grand Champ\Desktop\bota_new\Server\bin\Release\MSCommon.dll
+C:\Users\Grand Champ\Desktop\bota_new\Server\bin\Release\MSCommon.pdb
+C:\Users\Grand Champ\Desktop\bota_new\Server\obj\x86\Release\Server.exe
+C:\Users\Grand Champ\Desktop\bota_new\Server\obj\x86\Release\Server.pdb

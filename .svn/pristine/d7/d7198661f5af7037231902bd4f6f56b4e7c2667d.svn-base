@@ -1,0 +1,35 @@
+﻿<UserControl x:Class="WpfTest.GUI.UpgradeObjectControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="330" d:DesignWidth="175" MouseEnter="UserControl_MouseEnter" MouseLeave="UserControl_MouseLeave">
+	<UserControl.Resources>		
+	</UserControl.Resources>
+	<Grid Background="Transparent" Height="330" Width="175">
+		<TextBlock Text="{Binding ID}" Foreground="White" Height="23" HorizontalAlignment="Left" Margin="0,2,0,305" Name="IDtxtBlk" VerticalAlignment="Center" Width="52" Visibility="Hidden" />
+		<TextBlock Text="{Binding Type}" Foreground="White" Height="23" HorizontalAlignment="Left" Margin="100,2,0,305" Name="TypetxtBlk" VerticalAlignment="Center" Width="52" Visibility="Hidden" />
+		<Border BorderThickness="1" BorderBrush="White"/>
+		<Image Source="{Binding FilePath}" Height="165" HorizontalAlignment="Left" Margin="2,2,0,0" Name="image1" Stretch="Fill" VerticalAlignment="Top" Width="165" />				
+		<TextBlock Text="{Binding Name}" Foreground="White" Height="34" Name="textBlock8" Width="165" FontSize="22" Margin="2,168,2,119" TextAlignment="Center" />
+		<Image Height="25" Name="image8" Source="/WpfTest;component/Content/Icons/gold.png" Stretch="Fill" Width="25" Margin="36,205,108,91" />
+		<Image Height="25" HorizontalAlignment="Left" Margin="2,235,0,0" Name="image2" Stretch="Fill" VerticalAlignment="Top" Width="25" Source="/WpfTest;component/Content/Icons/attack.png" />
+		<Image Height="25" HorizontalAlignment="Left" Margin="84,236,0,0" Name="image3" Source="/WpfTest;component/Content/Icons/defense.png" Stretch="Fill" VerticalAlignment="Top" Width="25" />
+		<Image Height="25" HorizontalAlignment="Left" Margin="2,263,0,0" Name="image4" Source="/WpfTest;component/Content/Icons/health.png" Stretch="Fill" VerticalAlignment="Top" Width="25" />
+		<Image Height="25" HorizontalAlignment="Left" Margin="84,263,0,0" Name="image5" Source="/WpfTest;component/Content/Icons/Shield.png" Stretch="Fill" VerticalAlignment="Top" Width="25" />
+		<Image Height="25" HorizontalAlignment="Left" Margin="2,289,0,0" Name="image6" Source="/WpfTest;component/Content/Icons/Move.png" Stretch="Fill" VerticalAlignment="Top" Width="25" />
+		<Image Height="25" HorizontalAlignment="Left" Margin="84,290,0,0" Name="image7" Source="/WpfTest;component/Content/Icons/gold2.png" Stretch="Fill" VerticalAlignment="Top" Width="25" />
+		<TextBlock Text ="{Binding GoldCost}" Height="23" HorizontalAlignment="Left" Margin="64,205,0,92" Name="textBlock1" VerticalAlignment="Center" Foreground="White" Width="78" />
+		<TextBlock Text ="{Binding Health}" Foreground="White" Height="23" HorizontalAlignment="Left" Margin="28,264,0,43" Name="textBlock3" VerticalAlignment="Center" Width="52" />
+		<TextBlock Text ="{Binding Move}" Foreground="White" Height="23" HorizontalAlignment="Left" Margin="28,0,0,17" Name="textBlock4" VerticalAlignment="Bottom" Width="52" />
+		<TextBlock Text ="{Binding Defense}" Foreground="White" Height="23" HorizontalAlignment="Right" Margin="0,237,12,70" Name="textBlock5" VerticalAlignment="Center" Width="52" />
+		<TextBlock Text ="{Binding Shield}" Foreground="White" Height="23" HorizontalAlignment="Left" Margin="111,263,0,44" Name="textBlock6" VerticalAlignment="Center" Width="52" />
+		<TextBlock Text ="{Binding Popularity}" Foreground="White" Height="23" HorizontalAlignment="Left" Margin="111,291,0,16" Name="textBlock7" VerticalAlignment="Center" Width="52" />
+		<TextBlock Text="{Binding Attack}" Foreground="White" Height="23" HorizontalAlignment="Left" Margin="28,237,0,70" Name="textBlock2" VerticalAlignment="Center" Width="52" />
+		<StackPanel Height="330" HorizontalAlignment="Left" Name="stackPanel1" Width="175" Background="#C3000000"
+			Visibility="Hidden">			
+			<Button Content="Equip" Height="100" Name="equipBtn" Width="75" Margin="0,150,0,0" Click="equipBtn_Click" />
+		</StackPanel>
+	</Grid>
+</UserControl>
