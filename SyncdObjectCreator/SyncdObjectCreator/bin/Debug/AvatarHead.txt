@@ -1,0 +1,3 @@
+0|2|None|Avatar\\none.png|0|0|0|0|0|0|0|0
+1|2|Water|Avatar\\Head\\water.png|500|3|10|3|0|5|5|0
+2|2|Fire|Avatar\\Head\\fire.png|750|15|3|0|0|5|5|0
