@@ -4,7 +4,7 @@
 winexe
 C#
 .cs
-C:\Users\Grand Champ\Desktop\bota_new\WpfTest\obj\x86\Debug\
+C:\Git\bota_new\WpfTest\obj\x86\Debug\
 WpfTest
 none
 false
@@ -12,8 +12,8 @@ DEBUG;TRACE
 
 11-2073856405
 
-33-1560782585
-26-1528768465
+33-144783204
+26667777032
 App.xaml;Controls\CharacterControl.xaml;Controls\GameControl.xaml;EditCharacterWindow.xaml;GameWindow.xaml;GUI\ChatControl.xaml;GUI\ShopObjectControl.xaml;GUI\UpgradeObjectControl.xaml;MainScreen.xaml;LoginWindow.xaml;ShopWindow.xaml;
 
 False

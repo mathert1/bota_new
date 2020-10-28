@@ -19,11 +19,12 @@ namespace Server
 		public void ConnectDB()
 		{
             //GrandChamp-PC\\SQLEXPRESS
-            sqlConn = new SqlConnection(//"user id=username;" +
-                //"password=password;" +
-				"server=DESKTOP-CUI4F07;" +
-                //"Trusted_Connection=yes;" +
-				"Integrated Security=true;" +
+            sqlConn = new SqlConnection("user id=SA;" +
+										"password=Test12345!;" +
+										//"server=DESKTOP-CUI4F07;" +
+				"server=192.168.0.10;" +
+				//"Trusted_Connection=yes;" +
+				//"Integrated Security=true;" +
                 "database=BOTA; " +
                 "connection timeout=30");
             try

@@ -12,7 +12,7 @@ namespace Server
 	{
 		public NetServer peer;
 		public DatabaseConnection DBconn;
-		
+
 		double nextSendUpdates;
 		GameState gameState;
 		LobbyState lobbyState;
@@ -27,7 +27,7 @@ namespace Server
 			InitServer();
 			DBconn = new DatabaseConnection();
 			DBconn.DisconnectAllPlayers();
-			
+
 			gameState = new GameState(peer, DBconn);
 			lobbyState = new LobbyState(peer, DBconn);
 
@@ -53,7 +53,7 @@ namespace Server
 			{
 				ReceiveMessages();
 
-				// send position updates 30 times per second				
+				// send position updates 30 times per second
 				double now = NetTime.Now;
 				if (now > nextSendUpdates)
 				{
@@ -89,7 +89,7 @@ namespace Server
 						{
                             //-----------LOBBY STATE-----------------------
 							case MasterServerMessageType.RequestLogin: //Login Request
-								lobbyState.HandleLoginRequest(msg);								
+								lobbyState.HandleLoginRequest(msg);
 								break;
 							case MasterServerMessageType.CreateAccount:
 								lobbyState.HandleCreateAccountRequest(msg);
@@ -162,6 +162,6 @@ namespace Server
 						break;
 				}
 			}
-		}			       
+		}
 	}
 }

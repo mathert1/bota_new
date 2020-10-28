@@ -1,0 +1,80 @@
+AvatarHead
+	ID
+	GoldCost
+	Attack
+	Defense
+	Health
+	Shield
+	Move
+	Popularity
+AvatarChest
+	ID
+	GoldCost
+	Attack
+	Defense
+	Health
+	Shield
+	Move
+	Popularity
+AvatarShoulder
+	ID
+	GoldCost
+	Attack
+	Defense
+	Health
+	Shield
+	Move
+	Popularity
+Buddies
+	CharID
+	BuddyID
+CharacterInfo
+	CharID
+	CharName
+	Pass
+	Rank
+	Wins
+	Losses
+	CharTankID
+	CharSkinID
+	CharAvaHeadID
+	CharAvaShoulderID
+	CharAvaChestID
+	Gold
+CharacterStatuses
+	CharID
+	Status(int)
+CharacterTanks
+	CharID
+	TankID
+	Rank
+	Shot1
+	Shot2
+	Shot3
+	Item1
+	Item2
+	Item3
+CharacterSkins
+	CharID
+	SkinID
+CharacterAvatarHead
+	CharID
+	AvatarID
+CharacterAvatarShoulder
+	CharID
+	AvatarID
+CharacterAvatarChest
+	CharID
+	AvatarID
+Skins
+	ID
+	GoldCost
+Tanks
+	ID
+	GoldCost
+	Attack	
+	Defense
+	Health
+	Shield
+	Move
+	Popularity

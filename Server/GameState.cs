@@ -125,7 +125,8 @@ namespace Server
 							CheckPlayerOffScreen(p, g);
 						}
 					}
-				}
+					break;
+				}				
 			}
 		}
 

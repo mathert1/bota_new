@@ -16,3 +16,13 @@ C:\Users\Tyler\Desktop\bota_new\Server\obj\x86\Debug\Server.csproj.CoreCompileIn
 C:\Users\Tyler\Desktop\bota_new\Server\obj\x86\Debug\Server.csproj.CopyComplete
 C:\Users\Tyler\Desktop\bota_new\Server\obj\x86\Debug\Server.exe
 C:\Users\Tyler\Desktop\bota_new\Server\obj\x86\Debug\Server.pdb
+C:\Git\bota_new\Server\bin\Debug\Server.exe
+C:\Git\bota_new\Server\bin\Debug\Server.pdb
+C:\Git\bota_new\Server\bin\Debug\Lidgren.Network.dll
+C:\Git\bota_new\Server\bin\Debug\MSCommon.dll
+C:\Git\bota_new\Server\bin\Debug\MSCommon.pdb
+C:\Git\bota_new\Server\obj\x86\Debug\Server.csprojAssemblyReference.cache
+C:\Git\bota_new\Server\obj\x86\Debug\Server.csproj.CoreCompileInputs.cache
+C:\Git\bota_new\Server\obj\x86\Debug\Server.csproj.CopyComplete
+C:\Git\bota_new\Server\obj\x86\Debug\Server.exe
+C:\Git\bota_new\Server\obj\x86\Debug\Server.pdb
